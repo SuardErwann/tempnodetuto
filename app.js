@@ -1,48 +1,14 @@
-const {readFile, writeFile} = require('fs');
-const util = require('util');
+const http = require ('http');
 
-const readFilePromise = util.promisify(readFile);
-const writeFilePromise = util.promisify(writeFile);
-// const getText = (path) => {
-//     return new Promise((resolve, reject)=> {
-//         readFile(path, 'utf-8', (err, data) => {
-//             if(err) {
-//                 reject(err);
-//             }
-//             else {
-//                 resolve(data);
-//             }
-//         })
-//     });
-// };
+// // Methode 1 :
+// const server1 = http.createServer((req, res) => {
+//     res.end('Hello !!');
+// }) 
+// server1.listen(5000);
 
-
-
-// getText('./content/first.txt')
-//     .then(result => console.log(result))
-//     .catch(err => console.log(err));
-
-// const start = async() =>{
-//     try {
-//         const first = await getText('./content/first.txt');
-//         const second = await getText('./content/second.txt');
-//         console.log(first, '|', second);
-//     }
-//     catch(err){
-//         console.log(err);
-//     }
-// }
-
-const start = async() =>{
-    try {
-        const first = await readFilePromise('./content/first.txt', 'utf-8');
-        const second = await readFilePromise('./content/second.txt', 'utf-8');
-        await writeFilePromise('./content/result-promiseWriteFile.txt', 'IT WORKED !!!');
-        console.log(first, '|', second);
-    }
-    catch(err){
-        console.log(err);
-    }
-}
-
-start();
+// Methode 2
+const server = http.createServer();
+server.on('request', (req, res) => {    // request n'est pas un nom au hasard, c'est un Event, voir doc.
+    res.end('Hello Event!!');
+});
+server.listen(5000);
