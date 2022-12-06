@@ -1,15 +1,48 @@
-const path = require('path');
+const {readFile, writeFile} = require('fs');
+const util = require('util');
 
-console.log(path.sep);  // Separateur
+const readFilePromise = util.promisify(readFile);
+const writeFilePromise = util.promisify(writeFile);
+// const getText = (path) => {
+//     return new Promise((resolve, reject)=> {
+//         readFile(path, 'utf-8', (err, data) => {
+//             if(err) {
+//                 reject(err);
+//             }
+//             else {
+//                 resolve(data);
+//             }
+//         })
+//     });
+// };
 
-// Return normalized file path
-const filePath = path.join('./content', 'subfolder', 'fichier.txt');
-console.log(filePath);
 
-// Return base
-const base = path.basename(filePath);
-console.log(base);
 
-// Chemin absolu
-const absolute = path.resolve(__dirname, 'content', 'subfolder', 'test.txt');
-console.log(absolute);
+// getText('./content/first.txt')
+//     .then(result => console.log(result))
+//     .catch(err => console.log(err));
+
+// const start = async() =>{
+//     try {
+//         const first = await getText('./content/first.txt');
+//         const second = await getText('./content/second.txt');
+//         console.log(first, '|', second);
+//     }
+//     catch(err){
+//         console.log(err);
+//     }
+// }
+
+const start = async() =>{
+    try {
+        const first = await readFilePromise('./content/first.txt', 'utf-8');
+        const second = await readFilePromise('./content/second.txt', 'utf-8');
+        await writeFilePromise('./content/result-promiseWriteFile.txt', 'IT WORKED !!!');
+        console.log(first, '|', second);
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
+start();
