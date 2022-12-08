@@ -1,11 +1,13 @@
-const http = require('http');
+const express = require('express');
+const app = express();
+let {people} = require('./data.js');
+
 const port = 5000;
-const server = http.createServer((req, res) => {
-    if(req.url === '/') {
-        res.end('Hello maison');
-    }
-    else {
-        res.end('Marche pô');
-    }
-});
-server.listen(port);
+
+app.get('/', (req,res) => {
+    res.status(200).json({success: true, data: people});
+})
+
+app.listen(port, ()=>{
+    console.log(`Serveur à l'écoute sur le port ${port}`);
+})
